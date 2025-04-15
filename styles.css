@@ -1,0 +1,32 @@
+*{
+    color: gray;
+    font-size: 20px;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.logo{
+    color:blueviolet;
+    font-size: 40px;
+}
+input[type="text"] {
+    border-radius: 30px;
+    margin-left: 5%;
+    height: 40px;
+    width: 1050px; /* Example: Set the width to 300 pixels */
+    margin-left: auto;
+    margin-right:auto;
+}
+.category-links{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+}
