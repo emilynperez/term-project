@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">berrybag.</div>
+      <div><a href="/">Home</a></div>
+      <div><a href="/products">Shop</a></div>
+      <div class="auth-links">
+        <a href="/profile"><i class="fa-solid fa-user profile-icon-color"></i></a>
+      </div>
+    </nav>
+
+    <div class="form-container">
+      <h2>Welcome, <span id="username">...</span>!</h2>
+      <p>Email: <span id="email">...</span></p>
+      <p>Address: <span id="address">...</span></p>
+      <p>Phone: <span id="phone">...</span></p>
+    </div>
+
+    <script>
+      fetch("/profile-data")
+        .then((res) => {
+          if (!res.ok) throw new Error("Unauthorized");
+          return res.json();
+        })
+        .then((data) => {
+          document.getElementById("username").textContent = data.name;
+          document.getElementById("email").textContent = data.email;
+          document.getElementById("address").textContent = data.address;
+          document.getElementById("phone").textContent = data.phone;
+        })
+        .catch(() => {
+          alert("You must be logged in to view your profile.");
+          window.location.href = "/signin";
+        });
+    </script>
+  </body>
+</html>
