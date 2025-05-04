@@ -1,13 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>berrybag</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/script.js" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"
+      defer
+    ></script>
   </head>
   <body>
     <nav>
@@ -17,15 +19,18 @@
         <input type="text" placeholder="Search.." />
       </form>
       <div class="shopping-cart-icon">
-        <a href="payment.html"><i class="fa-solid fa-cart-shopping"></i></a>
+        <a href="/payment.html"><i class="fa-solid fa-cart-shopping"></i></a>
       </div>
-      <div class="auth-links">
-        <a href="signin.html">Sign in</a>      </div>
+      <div class="auth-links" id="auth-links">
+        <a href="/signin" id="signin-link">Sign in</a>
+        <a href="/profile" id="profile-link" style="display: none">
+          <i class="fa-solid fa-user profile-icon-color"></i>
+        </a>
+      </div>      
     </nav>
 
-
     <div class="category-links">
-      <a href="products.html">Cats</a>
+      <a href="/products">Cats</a>
       <a>CAT2</a>
       <a>CAT3</a>
       <a>CAT1</a>
@@ -33,11 +38,10 @@
     </div>
     <hr />
 
-
     <h2 class="section-title">Featured Projects</h2>
     <div class="slideshow-container" id="slideshow1">
       <img
-        src="https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg?cs=srgb&dl=pexels-pixabay-57416.jpg&fm=jpg"
+        src="https://images.pexels.com/photos/57416/cat-sweet-kitty-animals-57416.jpeg"
         class="slide active"
       />
       <img
@@ -49,11 +53,9 @@
         class="slide"
       />
 
-
       <a class="prev" onclick="changeSlide('slideshow1', -1)">❮</a>
       <a class="next" onclick="changeSlide('slideshow1', 1)">❯</a>
     </div>
-
 
     <h2 class="section-title">Trending Now</h2>
     <div class="slideshow-container" id="slideshow2">
@@ -70,14 +72,24 @@
         class="slide"
       />
 
-
-      <a class="prev" onclick="changeSlide('slideshow1', -1)">❮</a>
-      <a class="next" onclick="changeSlide('slideshow1', 1)">❯</a>
+      <a class="prev" onclick="changeSlide('slideshow2', -1)">❮</a>
+      <a class="next" onclick="changeSlide('slideshow2', 1)">❯</a>
     </div>
 
-
-    <script src="script.js"></script>
+    <script>
+      fetch("/profile-data")
+        .then((res) => {
+          if (!res.ok) throw new Error("Not logged in");
+          return res.json();
+        })
+        .then(() => {
+          document.getElementById("signin-link").style.display = "none";
+          document.getElementById("profile-link").style.display = "inline";
+        })
+        .catch(() => {
+          document.getElementById("signin-link").style.display = "inline";
+          document.getElementById("profile-link").style.display = "none";
+        });
+    </script>
   </body>
 </html>
-
-

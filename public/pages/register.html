@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Account</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Create Your Account</h2>
+      <form action="/auth/register" method="POST">
+        <input name="name" type="text" placeholder="Full Name" required /><br />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          required
+        /><br />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+        /><br />
+        <input
+          name="address"
+          type="text"
+          placeholder="Shipping Address"
+          required
+        /><br />
+        <input
+          name="phone"
+          type="tel"
+          placeholder="Phone Number"
+          required
+        /><br />
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account?</p>
+      <a href="/signin"><button class="alt-button">Sign In</button></a>
+    </div>
+  </body>
+</html>

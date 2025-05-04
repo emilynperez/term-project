@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+  </head>
+  <body>
+    <nav>
+  <div class="logo">berrybag.</div>
+  <div><a href="/">Home</a></div>
+  <div><a href="/products">Shop</a></div>
+  <div class="auth-links" id="auth-links">
+  <a href="/payment.html"><i class="fa-solid fa-cart-shopping"></i></a>
+  <a href="/profile" id="profile-link" class="profile-icon">
+    <i class="fa-solid fa-user profile-icon-color"></i>
+  </a>
+</div>
+</nav>
+
+    <div class="form-container">
+      <h2>Sign In</h2>
+      <form id="login-form">
+        <input name="email" type="email" placeholder="Email" required /><br />
+        <input name="password" type="password" placeholder="Password" required /><br />
+        <button type="submit">Sign In</button>
+      </form>
+      <p id="error-message" style="color: red; display: none;">Invalid email or password.</p>
+      <p>Don't have an account?</p>
+      <a href="/register"><button class="alt-button">Register</button></a>
+    </div>
+
+    <script>
+      const form = document.getElementById("login-form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+        const res = await fetch("/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (res.ok) {
+          window.location.href = "/";
+        } else {
+          document.getElementById("error-message").style.display = "block";
+        }
+      });
+    </script>
+  </body>
+</html>
