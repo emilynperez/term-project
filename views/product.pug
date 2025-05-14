@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .product-detail
+    img(src=product.image, alt=product.name)
+    h1= product.name
+    p.description= product.description
+    p.price $#{product.price.toFixed(2)}
+    form(method="POST", action=`/cart/add/${product.id}`)
+      button(type="submit") Add to Cart

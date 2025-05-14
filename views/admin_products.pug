@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h2 Admin Panel
+  form(method="POST", action="/admin/products")
+    input(name="name", placeholder="Product Name", required)
+    input(name="description", placeholder="Description", required)
+    input(name="price", type="number", step="0.01", placeholder="Price", required)
+    input(name="image", placeholder="Image URL", required)
+    input(name="category", placeholder="Category", required)
+    button(type="submit") Add Product
+
+  hr
+  h3 Existing Products
+  ul
+    each p in products
+      li= `${p.name} - ${p.category} - $${p.price}`

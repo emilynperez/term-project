@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title berrybag
+    link(rel="stylesheet", href="/css/styles.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js", defer)
+    script(src="/js/script.js", defer)
+  body
+    nav
+      .logo
+        a(href="/") berrybag.
+      .search-box
+        form(action="/search", method="GET")
+          input(type="text", name="q", placeholder="Search..")
+
+      ul.nav-links
+        li
+          a(href="/products") Products
+        li
+          a(href="/cart")
+            i.fas.fa-shopping-cart
+            |  (#{cartCount || 0})
+        if user
+          li
+            a(href="/profile")
+              i.fas.fa-user(style="color:pink; font-size: 20px;")
+            a(href="/auth/logout") Logout
+        else
+          li
+            a(href="/signin") Sign in
+
+    main
+      block content
+
+    footer
+      p(style="text-align: center; color: gray; margin-top: 40px") © 2025 berrybag.

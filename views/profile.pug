@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .form-container
+    h2 Welcome, #{user.name}
+    p Email: #{user.email}
+    p Address: #{user.address || 'No address provided'}
+    p Phone: #{user.phone || 'No phone provided'}
+    a(href="/auth/logout") Logout
