@@ -1,0 +1,26 @@
+nav.navbar
+  a.logo(href="/") berrybag.
+  .search-box
+    form(action="/search", method="GET")
+      input(type="text", name="q", placeholder="Search..")
+  ul.nav-icons
+    li
+      a(href="/cart")
+        i.fas.fa-shopping-cart
+        |  (#{cartCount || 0})
+    if user
+      li
+        a(href="/profile") Profile
+        a(href="/auth/logout") Logout
+    else
+      li
+        a(href="/signin") Sign in
+
+nav.categories
+  .category-container
+    ul.category-links
+      li: a(href="/products") Products
+      li: a(href="/cats") Cats
+      li: a(href="/toys") Toys
+      li: a(href="/accessories") Accessories
+
