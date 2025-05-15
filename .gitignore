@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# SQLite database file
+data/database.sqlite
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+
+# System/OS files
+.DS_Store
+Thumbs.db
+
+# Optional: backup or temp files
+*.sqlite-journal
+*.tmp
+*.bak
