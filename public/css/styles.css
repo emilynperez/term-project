@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fafafa;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 32px;
+  color: blueviolet;
+  font-weight: bold;
+}
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.category-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.category-links a {
+  text-decoration: none;
+  color: blueviolet;
+  font-weight: bold;
+}
+
+.section-title {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 26px;
+  color: black;
+}
+
+.slideshow-container {
+  width: 80%;
+  margin: 20px auto;
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide.active {
+  display: block;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  font-weight: bold;
+  background: white;
+  color: black;
+  border: 2px solid black;
+  border-radius: 8px;
+  transform: translateY(-50%);
+  text-align: center;
+  line-height: 36px;
+}
+
+.prev:hover, .next:hover {
+  background: black;
+  color: white;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.form-container {
+  width: 350px;
+  margin: 80px auto;
+  padding: 30px;
+  border: 2px solid blueviolet;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.form-container h2 {
+  text-align: center;
+  color: blueviolet;
+  margin-bottom: 20px;
+}
+
+.form-container input, .form-container button {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-container button {
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.form-container button:hover {
+  background-color: indigo;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.price {
+  font-weight: bold;
+  color: green;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+}
+ 

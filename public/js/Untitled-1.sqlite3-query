@@ -1,0 +1,7 @@
+-- database: ../../data/database.sqlite
+
+ALTER TABLE products ADD COLUMN category TEXT;
+
+
+SELECT * FROM products;
+ 

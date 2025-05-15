@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h2 Cart
+
+  if cart.length
+    ul
+      each item in cart
+        li
+          img(src=item.image, alt=item.name, style="width:100px; vertical-align:middle; margin-right:10px;")
+          strong= item.name
+          |  - $#{item.price.toFixed(2)}
+          form(action=`/cart/remove/${item.id}`, method="POST", style="display:inline; margin-left:10px;")
+            button(type="submit") Remove
+    br
+    a(href="/products") Continue Shopping
+  else
+    p Your cart is empty.
+    a(href="/products") Start shopping now
+ 
