@@ -34,3 +34,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initSlideshow("slideshow1");
   initSlideshow("slideshow2");
 });
+ 
