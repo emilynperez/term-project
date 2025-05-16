@@ -33,13 +33,11 @@ function initSlideshow(slideshowId, interval = 5000) {
 document.addEventListener("DOMContentLoaded", () => {
   initSlideshow("slideshow1");
   initSlideshow("slideshow2");
-});
-document.addEventListener("DOMContentLoaded", () => {
+
   const forms = document.querySelectorAll(".cart-form");
   forms.forEach((form) => {
     form.addEventListener("submit", async (e) => {
-      e.preventDefault(); // ⛔ Stop regular form submission
-
+      e.preventDefault();
       const productId = form.getAttribute("data-id");
 
       try {
@@ -47,17 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          showAlert("✅ Item added to cart");
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showAlert("✅ " + data.message);
 
           const cartCountEl = document.querySelector("#cart-count");
           if (cartCountEl && data.cartCount !== undefined) {
             cartCountEl.textContent = data.cartCount;
           }
-        }
- else {
-          showAlert("❌ Failed to add to cart");
+        } else {
+          showAlert("❌ " + (data.message || "Failed to add to cart"));
         }
       } catch (err) {
         showAlert("❌ Something went wrong");
@@ -84,5 +82,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   }
 });
-
- 
