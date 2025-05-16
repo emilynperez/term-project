@@ -2,8 +2,19 @@ extends layout
 
 block content
   .form-container
-    h2 Payment (Demo Only)
-    p This checkout page is a placeholder.
-    p Your order is not really processed.
-    p Shipping to: 123 Cat Street, Meowtown
-    button(onclick="alert('Thanks for your order!')") Complete Order
+    h2 Payment
+    
+    form(onSubmit="event.preventDefault(); alert('Thanks for your order!');")
+      label(for="name") Full Name
+      input(type="text", id="name", name="name", required, placeholder="e.g. Whiskers Catson")
+
+      label(for="address") Shipping Address
+      input(type="text", id="address", name="address", required, placeholder="123 Cat Street, Meowtown")
+
+      label(for="email") Account Email
+      input(type="email", id="email", name="email", required, placeholder="you@example.com")
+
+      label(for="card") Card Number
+      input(type="text", id="card", name="card", required, maxlength="19", placeholder="XXXX XXXX XXXX XXXX")
+
+      button(type="submit") Complete Order
