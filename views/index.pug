@@ -14,7 +14,3 @@ block content
       img.slide(class=i === 0 ? "slide active" : "slide", src=url)
     a.prev(onclick="changeSlide('slideshow2', -1)") ❮
     a.next(onclick="changeSlide('slideshow2', 1)") ❯
-
-  .category-links
-    each cat in categories
-      a(href=`/products?category=${cat}`)= cat
