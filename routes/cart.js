@@ -24,15 +24,14 @@ router.post("/add/:id", ensureCart, (req, res) => {
       return res.status(404).send("Product not found");
     }
     req.session.cart.push(product);
-    res.redirect("/cart");
+    res.status(200).json({ cartCount: req.session.cart.length });
   });
 });
 
 router.post("/remove/:id", ensureCart, (req, res) => {
   const productId = parseInt(req.params.id);
   req.session.cart = req.session.cart.filter(p => p.id !== productId);
-  res.redirect("/cart");
+  res.redirect("back");
 });
 
 module.exports = router;
-
