@@ -56,7 +56,16 @@ app.get("/", (req, res) => {
   });
 });
 
+// Static pages
+app.get("/about", (req, res) => res.render("about"));
+app.get("/faq", (req, res) => res.render("faq"));
+
 // Payment demo page
 app.get("/payment", (req, res) => res.render("payment"));
 
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});

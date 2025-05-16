@@ -19,10 +19,13 @@ router.post("/register", async (req, res) => {
     [name, email, hashed, address || "", phone || ""],
     function (err) {
       if (err) {
-        return res.render("register", { error: "Email already registered", title: "Register - berrybag" });
+        return res.render("register", {
+          error: "Email already registered",
+          title: "Register - berrybag",
+        });
       }
       req.session.user = { id: this.lastID, name, email };
-      res.redirect("/auth/profile"); // ✅ FIXED
+      res.redirect("/auth/profile");
     }
   );
 });
@@ -36,17 +39,29 @@ router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
   db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
-    if (err || !user) return res.render("signin", { error: "Invalid credentials", title: "Sign In - berrybag" });
+    if (err || !user)
+      return res.render("signin", {
+        error: "Invalid credentials",
+        title: "Sign In - berrybag",
+      });
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.render("signin", { error: "Incorrect password", title: "Sign In - berrybag" });
+    if (!match)
+      return res.render("signin", {
+        error: "Incorrect password",
+        title: "Sign In - berrybag",
+      });
 
-    req.session.user = { id: user.id, name: user.name, email: user.email };
-    res.redirect("/auth/profile"); // ✅ FIXED
+    req.session.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+    res.redirect("/auth/profile");
   });
 });
 
-// Profile (View)
+// View Profile
 router.get("/profile", (req, res) => {
   if (!req.session.user) return res.redirect("/auth/signin");
 
@@ -60,8 +75,22 @@ router.get("/profile", (req, res) => {
   });
 });
 
-// Profile (Update)
-router.post("/profile", (req, res) => {
+// Edit Profile Form
+router.get("/profile/edit", (req, res) => {
+  if (!req.session.user) return res.redirect("/auth/signin");
+
+  db.get("SELECT * FROM users WHERE id = ?", [req.session.user.id], (err, user) => {
+    if (err || !user) return res.redirect("/auth/signin");
+
+    res.render("edit_profile", {
+      title: "Edit Profile - berrybag",
+      user,
+    });
+  });
+});
+
+// Handle Profile Edit
+router.post("/profile/edit", (req, res) => {
   const { name, email, address, phone, bio, profile_image } = req.body;
   const userId = req.session.user.id;
 
@@ -70,12 +99,15 @@ router.post("/profile", (req, res) => {
     [name, email, address, phone, bio, profile_image, userId],
     function (err) {
       if (err) {
-        return res.render("profile", { error: "Update failed.", user: req.body });
+        return res.render("edit_profile", {
+          error: "Update failed.",
+          user: req.body,
+        });
       }
 
       req.session.user.name = name;
       req.session.user.email = email;
-      res.redirect("/auth/profile"); // ✅ FIXED
+      res.redirect("/auth/profile");
     }
   );
 });
