@@ -1,19 +1,26 @@
 extends layout
 
 block content
-  h2 Cart
+  h2(style="font-size: 2rem; margin-bottom: 20px;") Cart
 
   if cart.length
-    ul
+    .cart-container
       each item in cart
-        li
-          img(src=item.image, alt=item.name, style="width:100px; vertical-align:middle; margin-right:10px;")
-          strong= item.name
-          |  - $#{item.price.toFixed(2)}
-          form(action=`/cart/remove/${item.id}`, method="POST", style="display:inline; margin-left:10px;")
-            button(type="submit") Remove
-    br
-    a(href="/products") Continue Shopping
+        .cart-item
+          img.cart-img(src=item.image, alt=item.name)
+          .cart-details
+            strong= item.name
+            p $#{item.price.toFixed(2)}
+          form(action=`/cart/remove/${item.id}`, method="POST")
+            button.remove-btn(type="submit") Remove
+
+      hr
+      .cart-summary
+        - const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+        p.total-text Total: $#{total}
+        a.button(href="/payment") Proceed to Checkout
+
+      a.continue(href="/products") ← Continue Shopping
   else
     p Your cart is empty.
     a(href="/products") Start shopping now
