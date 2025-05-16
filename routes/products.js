@@ -21,5 +21,16 @@ router.get("/", (req, res) => {
     res.render("products", { products, title });
   });
 });
+router.get("/:id", (req, res) => {
+  const productId = req.params.id;
+
+  db.get("SELECT * FROM products WHERE id = ?", [productId], (err, product) => {
+    if (err || !product) {
+      return res.status(404).render("error", { message: "Product not found" });
+    }
+    res.render("product", { product });
+  });
+});
 
 module.exports = router;
+

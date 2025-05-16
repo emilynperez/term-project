@@ -1,12 +1,15 @@
 extends layout
 
 block content
- h2.section-title #{title || 'Products'}
+  h2.section-title #{title || 'Products'}
   .product-grid
     each product in products
       .product-card
-        img(src=product.image, alt=product.name)
-        h3= product.name
+        a(href=`/products/${product.id}`)
+          img(src=product.image, alt=product.name)
+        h3
+          a(href=`/products/${product.id}`, style="text-decoration: none; color: inherit")
+            = product.name
         p.description= product.description
         p.price $#{product.price.toFixed(2)}
         form(method="POST", action=`/cart/add/${product.id}`)
