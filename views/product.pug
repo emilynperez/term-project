@@ -1,10 +1,14 @@
 extends layout
 
 block content
-  .product-detail
-    img(src=product.image, alt=product.name)
-    h1= product.name
-    p.description= product.description
-    p.price $#{product.price.toFixed(2)}
-    form(method="POST", action=`/cart/add/${product.id}`)
-      button(type="submit") Add to Cart
+  .product-detail(style="max-width: 600px; margin: 50px auto; text-align: center")
+    img(src=product.image, alt=product.name, style="width: 100%; max-height: 400px; object-fit: contain; border-radius: 10px;")
+    h1(style="margin: 20px 0; color: blueviolet")= product.name
+    p.description(style="margin-bottom: 10px; font-size: 1.1rem; color: #555")= product.description
+    p.price(style="font-size: 1.4rem; font-weight: bold; color: green") $#{product.price.toFixed(2)}
+    p Category: #{product.category}
+
+    form(method="POST", action=`/cart/add/${product.id}`, style="margin-top: 20px")
+      button(type="submit", style="padding: 10px 20px; background-color: blueviolet; color: white; border: none; border-radius: 6px") Add to Cart
+
+    a(href="/products", style="display: inline-block; margin-top: 20px; color: blueviolet") ← Back to Products
