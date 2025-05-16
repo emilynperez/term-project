@@ -1,9 +1,24 @@
 extends layout
 
 block content
-  .form-container
-    h2 Welcome, #{user.name}
-    p Email: #{user.email}
-    p Address: #{user.address || 'No address provided'}
-    p Phone: #{user.phone || 'No phone provided'}
-    a(href="/auth/logout") Logout
+  .profile-card(style="max-width: 500px; margin: 40px auto; padding: 30px; border: 2px solid #ccc; border-radius: 15px; text-align: center; background: white; box-shadow: 0 0 15px rgba(0,0,0,0.05);")
+    // Profile Image
+    if user.profile_image
+      img(src=user.profile_image, alt="Profile Picture", style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #ccc; margin-bottom: 15px")
+    else
+      img(src="https://via.placeholder.com/120", alt="Profile Picture", style="width: 120px; height: 120px; border-radius: 50%; margin-bottom: 15px")
+
+    // Username and Edit Icon
+    .profile-row(style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 5px")
+      h2(style="margin: 0")= user.name
+      a(href="/auth/profile/edit", title="Edit Name")
+        i(class="fas fa-edit", style="color: blueviolet")
+
+    // Bio
+    .profile-row(style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 15px")
+      p(style="margin: 0; color: #555") #{user.bio || 'No description yet'}
+      a(href="/auth/profile/edit", title="Edit Bio")
+        i(class="fas fa-edit", style="color: blueviolet")
+
+    // Logout Button
+    a(href="/auth/logout", style="display: inline-block; margin-top: 20px; color: white; background: blueviolet; padding: 10px 20px; border-radius: 5px; text-decoration: none") Logout
