@@ -18,6 +18,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Middleware: share user/cart with all views
 app.use((req, res, next) => {
   const cart = req.session.cart || [];
   res.locals.cartCount = cart.length;
@@ -39,7 +41,7 @@ app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 
-// Homepage with slideshow
+// Homepage with slideshow + categories
 app.get("/", (req, res) => {
   const slides = JSON.parse(fs.readFileSync("./public/slides.json", "utf8"));
 
@@ -54,13 +56,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/signin", (req, res) => res.render("signin"));
-app.get("/register", (req, res) => res.render("register"));
+// Payment demo page
 app.get("/payment", (req, res) => res.render("payment"));
-app.get("/profile", (req, res) => {
-  if (!req.session.user) return res.redirect("/signin");
-  res.render("profile", { user: req.session.user });
-});
 
 app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
-
