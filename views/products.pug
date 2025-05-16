@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h2.section-title Products
+ h2.section-title #{title || 'Products'}
   .product-grid
     each product in products
       .product-card
