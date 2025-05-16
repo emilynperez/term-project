@@ -7,7 +7,8 @@ nav.navbar
     li
       a(href="/cart")
         i.fas.fa-shopping-cart
-        |  (#{cartCount || 0})
+        span#cart-count= cartCount || 0
+
     if user
       li
         a(href="/profile") Profile

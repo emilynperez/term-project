@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  div.alert-container
+
   h2.section-title #{title || 'Products'}
   .product-grid
     each product in products
@@ -12,5 +14,5 @@ block content
             = product.name
         p.description= product.description
         p.price $#{product.price.toFixed(2)}
-        form(method="POST", action=`/cart/add/${product.id}`)
+        form(class="cart-form", data-id=product.id)
           button(type="submit") Add to Cart
