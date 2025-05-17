@@ -1,8 +1,8 @@
 function initSlideshow(slideshowId, interval = 5000) {
-  let container = document.getElementById(slideshowId);
+  const container = document.getElementById(slideshowId);
   if (!container) return;
 
-  let slides = container.querySelectorAll(".slide");
+  const slides = container.querySelectorAll(".slide");
   let index = 0;
 
   function showSlide(newIndex) {
@@ -17,12 +17,12 @@ function initSlideshow(slideshowId, interval = 5000) {
 
   let intervalId = setInterval(nextSlide, interval);
 
-  container.querySelector(".prev").addEventListener("click", () => {
+  container.querySelector(".prev")?.addEventListener("click", () => {
     showSlide(index - 1);
     clearInterval(intervalId);
   });
 
-  container.querySelector(".next").addEventListener("click", () => {
+  container.querySelector(".next")?.addEventListener("click", () => {
     showSlide(index + 1);
     clearInterval(intervalId);
   });
@@ -30,16 +30,33 @@ function initSlideshow(slideshowId, interval = 5000) {
   showSlide(0);
 }
 
+function showAlert(message) {
+  let container = document.querySelector(".alert-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "alert-container";
+    document.body.prepend(container);
+  }
+
+  container.innerHTML = `
+    <div style="background:#d4edda;color:#155724;padding:10px;margin:10px auto;width:90%;border-radius:5px;text-align:center">
+      ${message}
+    </div>
+  `;
+
+  setTimeout(() => {
+    container.innerHTML = "";
+  }, 2500);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initSlideshow("slideshow1");
   initSlideshow("slideshow2");
-});
-document.addEventListener("DOMContentLoaded", () => {
+
   const forms = document.querySelectorAll(".cart-form");
   forms.forEach((form) => {
     form.addEventListener("submit", async (e) => {
-      e.preventDefault(); // ⛔ Stop regular form submission
-
+      e.preventDefault();
       const productId = form.getAttribute("data-id");
 
       try {
@@ -47,42 +64,30 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          showAlert("✅ Item added to cart");
+        let data;
+        try {
+          data = await res.json();
+        } catch (err) {
+          return showAlert("❌ Unexpected server response");
+        }
+
+        if (res.status === 401) {
+          return showAlert("❌ Please sign in to purchase");
+        }
+
+        if (res.ok && data.success) {
+          showAlert("✅ " + data.message);
 
           const cartCountEl = document.querySelector("#cart-count");
           if (cartCountEl && data.cartCount !== undefined) {
             cartCountEl.textContent = data.cartCount;
           }
-        }
- else {
-          showAlert("❌ Failed to add to cart");
+        } else {
+          showAlert("❌ " + (data.message || "Failed to add to cart"));
         }
       } catch (err) {
-        showAlert("❌ Something went wrong");
+        showAlert("❌ Unable to connect to server");
       }
     });
   });
-
-  function showAlert(message) {
-    let container = document.querySelector(".alert-container");
-    if (!container) {
-      container = document.createElement("div");
-      container.className = "alert-container";
-      document.body.prepend(container);
-    }
-
-    container.innerHTML = `
-      <div style="background:#d4edda;color:#155724;padding:10px;margin:10px auto;width:90%;border-radius:5px;text-align:center">
-        ${message}
-      </div>
-    `;
-
-    setTimeout(() => {
-      container.innerHTML = "";
-    }, 2000);
-  }
 });
-
- 

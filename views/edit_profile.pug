@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .form-container
+    h2 Edit Your Profile
+    form(method="POST", action="/auth/profile/edit")
+      input(type="text", name="name", placeholder="Name", value=user.name, required)
+      input(type="email", name="email", placeholder="Email", value=user.email, required)
+      input(type="text", name="address", placeholder="Address", value=user.address)
+      input(type="tel", name="phone", placeholder="Phone", value=user.phone)
+      input(type="text", name="bio", placeholder="Bio", value=user.bio)
+      input(type="text", name="profile_image", placeholder="Image URL", value=user.profile_image)
+      button(type="submit") Save Changes

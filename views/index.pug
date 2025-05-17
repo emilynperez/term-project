@@ -1,6 +1,16 @@
 extends layout
 
 block content
+  if requireLogin === 'cart'
+    script.
+      document.addEventListener("DOMContentLoaded", () => {
+        const alert = document.createElement("div");
+        alert.style = "background:#f8d7da;color:#721c24;padding:10px;margin:10px auto;width:90%;border-radius:5px;text-align:center";
+        alert.textContent = "❌ Please sign in to view your cart";
+        document.body.prepend(alert);
+        setTimeout(() => alert.remove(), 3000);
+      });
+
   h2.section-title Featured Projects
   .slideshow-container#slideshow1
     each url, i in slides.slideshow1

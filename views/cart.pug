@@ -11,7 +11,7 @@ block content
           .cart-details
             strong= item.name
             p $#{item.price.toFixed(2)}
-          form(action=`/cart/remove/${item.id}`, method="POST")
+          form(action=`/cart/remove/${item.cart_item_id}`, method="POST")
             button.remove-btn(type="submit") Remove
 
       hr
