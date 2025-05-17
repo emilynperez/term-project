@@ -4,14 +4,24 @@ const router = express.Router();
 
 const db = new sqlite3.Database("./data/database.sqlite");
 
-// Middleware to require login
-function requireLogin(req, res, next) {
-  if (!req.session.user) return res.status(401).json({ success: false, message: "Login required" });
+// Middleware to require login for HTML routes (redirect)
+function requireLoginRedirect(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect("/?requireLogin=cart");
+  }
+  next();
+}
+
+// Middleware to require login for API (return JSON)
+function requireLoginJson(req, res, next) {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: "Please sign in to purchase" });
+  }
   next();
 }
 
 // GET /cart – show current user's cart items
-router.get("/", requireLogin, (req, res) => {
+router.get("/", requireLoginRedirect, (req, res) => {
   const userId = req.session.user.id;
 
   db.all(`
@@ -26,7 +36,7 @@ router.get("/", requireLogin, (req, res) => {
 });
 
 // POST /cart/add/:id – add item to cart
-router.post("/add/:id", requireLogin, (req, res) => {
+router.post("/add/:id", requireLoginJson, (req, res) => {
   const userId = req.session.user.id;
   const productId = parseInt(req.params.id);
 
@@ -41,7 +51,7 @@ router.post("/add/:id", requireLogin, (req, res) => {
 });
 
 // POST /cart/remove/:cartItemId – remove specific cart entry
-router.post("/remove/:cartItemId", requireLogin, (req, res) => {
+router.post("/remove/:cartItemId", requireLoginRedirect, (req, res) => {
   const cartItemId = parseInt(req.params.cartItemId);
 
   db.run("DELETE FROM cart_items WHERE id = ?", [cartItemId], (err) => {
