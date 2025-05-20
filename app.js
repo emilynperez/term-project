@@ -3,14 +3,17 @@ const path = require("path");
 const sqlite3 = require("sqlite3").verbose();
 const session = require("express-session");
 const fs = require("fs");
+
 const app = express();
 const port = process.env.PORT || 3000;
 
+// View engine and middleware
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(
   session({
     secret: "berrybag_secret",
@@ -19,16 +22,27 @@ app.use(
   })
 );
 
-// Middleware: share user/cart with all views
-app.use((req, res, next) => {
-  const cart = req.session.cart || [];
-  res.locals.cartCount = cart.length;
-  res.locals.user = req.session.user || null;
-  next();
-});
-
-// DB
+// Initialize DB
 const db = new sqlite3.Database("./data/database.sqlite");
+
+// Inject user + cart count into views
+app.use((req, res, next) => {
+  if (req.session.user) {
+    db.get(
+      "SELECT COUNT(*) AS count FROM cart_items WHERE user_id = ?",
+      [req.session.user.id],
+      (err, row) => {
+        res.locals.cartCount = row ? row.count : 0;
+        res.locals.user = req.session.user;
+        next();
+      }
+    );
+  } else {
+    res.locals.cartCount = 0;
+    res.locals.user = null;
+    next();
+  }
+});
 
 // Routes
 const authRoutes = require("./routes/auth");
@@ -41,7 +55,7 @@ app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 
-// Homepage with slideshow + categories
+// Homepage with slides and categories
 app.get("/", (req, res) => {
   const slides = JSON.parse(fs.readFileSync("./public/slides.json", "utf8"));
 
@@ -49,9 +63,9 @@ app.get("/", (req, res) => {
     if (err) return res.status(500).send("Failed to load categories");
 
     res.render("index", {
-      user: req.session.user,
       slides,
       categories: categories.map((c) => c.category),
+      requireLogin: req.query.requireLogin || null, // for login popup
     });
   });
 });
@@ -59,13 +73,15 @@ app.get("/", (req, res) => {
 // Static pages
 app.get("/about", (req, res) => res.render("about"));
 app.get("/faq", (req, res) => res.render("faq"));
-
-// Payment demo page
 app.get("/payment", (req, res) => res.render("payment"));
 
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
-
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
+
+// Start server
+app.listen(port, () =>
+  console.log(`Server running at http://localhost:${port}`)
+);
