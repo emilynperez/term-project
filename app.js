@@ -55,7 +55,7 @@ app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 
-// Homepage with slides and categories
+// Homepage
 app.get("/", (req, res) => {
   const slides = JSON.parse(fs.readFileSync("./public/slides.json", "utf8"));
 
@@ -65,7 +65,30 @@ app.get("/", (req, res) => {
     res.render("index", {
       slides,
       categories: categories.map((c) => c.category),
-      requireLogin: req.query.requireLogin || null, // for login popup
+      requireLogin: req.query.requireLogin || null,
+    });
+  });
+});
+
+// Search Route ✅
+app.get("/search", (req, res) => {
+  const query = req.query.q;
+  if (!query || query.trim() === "") {
+    return res.redirect("/products");
+  }
+
+  const term = `%${query}%`;
+  const sql = `
+    SELECT * FROM products
+    WHERE name LIKE ? OR description LIKE ? OR category LIKE ?
+  `;
+
+  db.all(sql, [term, term, term], (err, products) => {
+    if (err) return res.status(500).send("Database error");
+
+    res.render("products", {
+      title: `Search results for "${query}"`,
+      products,
     });
   });
 });
