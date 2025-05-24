@@ -62,4 +62,4 @@ router.post("/users/:id/toggle-admin", requireAdmin, (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = router; 
