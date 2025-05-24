@@ -1,0 +1,18 @@
+-- database: ../../data/database.sqlite
+
+ALTER TABLE products ADD COLUMN category TEXT;
+
+
+SELECT * FROM products;
+
+ALTER TABLE users ADD COLUMN bio TEXT;
+ALTER TABLE users ADD COLUMN profile_image TEXT;
+
+
+ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0;
+
+UPDATE users SET is_admin = 1 WHERE email = 'admin@example.com';
+UPDATE users SET is_admin = 1 WHERE email = 'admin2@example.com';
+SELECT id, name, email, is_admin FROM users;
+
+

@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2 Admin: User Management
+
+  table(style="width: 100%; border-collapse: collapse; margin-top: 20px;")
+    thead
+      tr
+        th(style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;") Name
+        th(style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;") Email
+        th(style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;") Role
+        th(style="border-bottom: 2px solid #ddd; padding: 8px; text-align: left;") Action
+    tbody
+      each user in users
+        tr
+          td(style="padding: 8px;")= user.name
+          td(style="padding: 8px;")= user.email
+          td(style="padding: 8px;")= user.is_admin ? 'Admin' : 'User'
+          td(style="padding: 8px;")
+            form(method="POST", action=`/admin/users/${user.id}/toggle-admin`, style="display: inline")
+              button(type="submit", style=`background-color:${user.is_admin ? 'crimson' : 'blueviolet'}; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer`)
+                = user.is_admin ? 'Demote' : 'Promote'

@@ -7,6 +7,13 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 /*NAVBAR CSS*/
@@ -16,7 +23,7 @@ nav {
   align-items: center;
   padding: 10px 50px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .search-box {
   position: relative;
@@ -61,7 +68,7 @@ nav.navbar {
   align-items: center;
   padding: 10px 50px;
   background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 ul.nav-icons {
   list-style: none;
@@ -135,7 +142,7 @@ ul.category-links a:hover {
   background-color: white;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   gap: 15px;
   justify-content: space-between;
 }
@@ -215,7 +222,7 @@ ul.category-links a:hover {
   height: 300px;
   overflow: hidden;
   border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .slide {
@@ -229,7 +236,8 @@ ul.category-links a:hover {
   display: block;
 }
 
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -246,13 +254,18 @@ ul.category-links a:hover {
   line-height: 36px;
 }
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
   background: black;
   color: white;
 }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
 
 .form-container {
   width: 350px;
@@ -269,7 +282,8 @@ ul.category-links a:hover {
   margin-bottom: 20px;
 }
 
-.form-container input, .form-container button {
+.form-container input,
+.form-container button {
   width: 100%;
   margin-bottom: 15px;
   padding: 10px;
@@ -300,7 +314,7 @@ ul.category-links a:hover {
   border-radius: 8px;
   text-align: center;
   padding: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .product-card img {
@@ -319,4 +333,38 @@ ul.category-links a:hover {
   color: #666;
   font-size: 0.9rem;
 }
- 
+
+footer {
+  text-align: center;
+  color: gray;
+  background: #f8f8f8;
+  padding: 20px 0;
+  margin-top: auto;
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .search-box input[type="text"] {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  ul.category-links {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .product-card img {
+    height: 150px;
+  }
+
+  .cart-container {
+    padding: 10px;
+  }
+}
