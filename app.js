@@ -7,13 +7,12 @@ const fs = require("fs");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// View engine and middleware
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(
   session({
     secret: "berrybag_secret",
@@ -22,10 +21,10 @@ app.use(
   })
 );
 
-// Initialize DB
+// DB connection
 const db = new sqlite3.Database("./data/database.sqlite");
 
-// Inject user + cart count into views
+// Middleware: share user + cart count globally
 app.use((req, res, next) => {
   if (req.session.user) {
     db.get(
@@ -44,18 +43,19 @@ app.use((req, res, next) => {
   }
 });
 
-// Routes
+// Route imports
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const productRoutes = require("./routes/products");
 const cartRoutes = require("./routes/cart");
 
+// Route setups
 app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
 
-// Homepage
+// Homepage with slides + categories
 app.get("/", (req, res) => {
   const slides = JSON.parse(fs.readFileSync("./public/slides.json", "utf8"));
 
@@ -66,29 +66,6 @@ app.get("/", (req, res) => {
       slides,
       categories: categories.map((c) => c.category),
       requireLogin: req.query.requireLogin || null,
-    });
-  });
-});
-
-// Search Route ✅
-app.get("/search", (req, res) => {
-  const query = req.query.q;
-  if (!query || query.trim() === "") {
-    return res.redirect("/products");
-  }
-
-  const term = `%${query}%`;
-  const sql = `
-    SELECT * FROM products
-    WHERE name LIKE ? OR description LIKE ? OR category LIKE ?
-  `;
-
-  db.all(sql, [term, term, term], (err, products) => {
-    if (err) return res.status(500).send("Database error");
-
-    res.render("products", {
-      title: `Search results for "${query}"`,
-      products,
     });
   });
 });
@@ -104,7 +81,6 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something went wrong!");
 });
 
-// Start server
 app.listen(port, () =>
-  console.log(`Server running at http://localhost:${port}`)
+  console.log(`Server running at http://localhost:${port}`) 
 );

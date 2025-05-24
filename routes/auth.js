@@ -15,8 +15,8 @@ router.post("/register", async (req, res) => {
   const hashed = await bcrypt.hash(password, 10);
 
   db.run(
-    `INSERT INTO users (name, email, password, address, phone) VALUES (?, ?, ?, ?, ?)`,
-    [name, email, hashed, address || "", phone || ""],
+    `INSERT INTO users (name, email, password, address, phone, is_admin) VALUES (?, ?, ?, ?, ?, ?)`,
+    [name, email, hashed, address || "", phone || "", 0],
     function (err) {
       if (err) {
         return res.render("register", {
@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
           title: "Register - berrybag",
         });
       }
-      req.session.user = { id: this.lastID, name, email };
+      req.session.user = { id: this.lastID, name, email, is_admin: 0 };
       res.redirect("/auth/profile");
     }
   );
@@ -56,6 +56,7 @@ router.post("/signin", (req, res) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      is_admin: user.is_admin,
     };
     res.redirect("/auth/profile");
   });
@@ -117,4 +118,4 @@ router.get("/logout", (req, res) => {
   req.session.destroy(() => res.redirect("/"));
 });
 
-module.exports = router;
+module.exports = router; 
